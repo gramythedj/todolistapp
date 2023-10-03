@@ -15,7 +15,7 @@
 
            // Add a delete button
            const deleteButton = document.createElement("button");
-           deleteButton.textContent = "Delete";
+       
            deleteButton.onclick = function() {
                taskItem.remove();
            };
