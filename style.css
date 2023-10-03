@@ -1,0 +1,13 @@
+html , body {
+    width: 50%;
+    margin: 0 auto;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+h1 {
+    color: rgb(119, 0, 255);
+}
+
+#taskList{
+    color: rgb(140, 54, 238);
+}
