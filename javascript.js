@@ -1,45 +1,35 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const taskInput = document.getElementById("taskInput");
-    const addTaskButton = document.getElementById("addTask");
-    const taskList = document.getElementById("taskList");
+// Get references to HTML elements
+const taskInput = document.getElementById("task");
+const addButton = document.getElementById("add");
+const taskList = document.getElementById("task-list");
 
-    // Load tasks from localStorage
-    const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
-    // Function to render tasks
-    function renderTasks() {
-        taskList.innerHTML = "";
-        tasks.forEach((task, index) => {
-            const listItem = document.createElement("li");
-            listItem.innerHTML = `
-                <span>${task}</span>
-                <button data-index="${index}">Done</button>
-            `;
-            taskList.appendChild(listItem);
-        });
+// Function to add a task
+function addTask() {
+    const taskText = taskInput.value.trim();
+    if (taskText) {
+        const listItem = document.createElement("li");
+        const taskTextElement = document.createElement("span");
+        taskTextElement.textContent = taskText;
+        const doneButton = document.createElement("button");
+        doneButton.textContent = "Done";
+        listItem.appendChild(taskTextElement);
+        listItem.appendChild(doneButton);
+        taskList.appendChild(listItem);
+        taskInput.value = "";
+        doneButton.addEventListener("click", markAsDone);
     }
+}
 
-    // Add a new task
-    addTaskButton.addEventListener("click", function () {
-        const taskText = taskInput.value.trim();
-        if (taskText) {
-            tasks.push(taskText);
-            localStorage.setItem("tasks", JSON.stringify(tasks));
-            taskInput.value = "";
-            renderTasks();
-        }
-    });
+// Function to mark a task as done
+function markAsDone(event) {
+    const listItem = event.target.parentElement;
+    listItem.classList.toggle("done");
+}
 
-    // Mark a task as done
-    taskList.addEventListener("click", function (event) {
-        if (event.target.tagName === "BUTTON") {
-            const index = event.target.getAttribute("data-index");
-            tasks.splice(index, 1);
-            localStorage.setItem("tasks", JSON.stringify(tasks));
-            renderTasks();
-        }
-    });
-
-    // Initial rendering of tasks
-    renderTasks();
+// Set up event listeners
+addButton.addEventListener("click", addTask);
+taskInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        addTask();
+    }
 });
